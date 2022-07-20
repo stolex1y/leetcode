@@ -1,3 +1,5 @@
+package ru.stolexiy
+
 fun search(nums: IntArray, target: Int): Int {
     return search(nums, 0, nums.size - 1, target)
 }

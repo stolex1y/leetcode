@@ -1,3 +1,5 @@
+package ru.stolexiy
+
 var firstBad = 1
 
 fun firstBadVersion(n: Int) : Int {
