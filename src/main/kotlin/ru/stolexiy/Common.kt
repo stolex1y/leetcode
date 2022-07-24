@@ -90,3 +90,69 @@ class TreeNode(var `val`: Int) {
     }
 }
 
+class Node(var `val`: Int) {
+    var left: Node? = null
+    var right: Node? = null
+    var next: Node? = null
+
+    companion object {
+        fun generateTree(values: IntArray): Node? {
+            if (values.isEmpty())
+                return null
+            val root = Node(values[0])
+            val queue = ArrayDeque<Node>()
+            queue.add(root)
+            for (i in 1 until values.size step 2) {
+                val current = queue.removeFirst()
+                val left = values[i]
+                val right = values[i + 1]
+                current.left = Node(left).also {
+                    queue.add(it)
+                }
+                current.right = Node(right).also {
+                    queue.add(it)
+                }
+            }
+            return root
+        }
+    }
+
+    fun decomposeToLayers(): IntArray {
+        val result = mutableListOf<Int>()
+        val layer = mutableListOf<Int>()
+        var currentNode: Node? = this
+        while (currentNode != null) {
+            layer += currentNode.`val`
+            currentNode = currentNode.next
+        }
+        result += layer
+        if (left != null) {
+            result += -1
+            result += left!!.decomposeToLayers().toList()
+        } else if (right != null) {
+            result += -1
+            result += right!!.decomposeToLayers().toList()
+        }
+        return result.toIntArray()
+    }
+}
+
+fun Node.toNodeArray(): Array<Node?> {
+    val result = mutableListOf<Node?>()
+    val queue = ArrayDeque<Node?>()
+    queue.add(this)
+    while (queue.isNotEmpty()) {
+        val curr = queue.removeFirst()
+        result.add(curr)
+        curr?.let { it ->
+            it.left?.let {
+                queue.add(it)
+            }
+            it.right?.let {
+                queue.add(it)
+            }
+        }
+    }
+    return result.toTypedArray()
+}
+

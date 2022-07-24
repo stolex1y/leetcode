@@ -1,5 +1,7 @@
 package ru.stolexiy
 
+import java.util.*
+
 fun mergeTreesRecursive(root1: TreeNode?, root2: TreeNode?): TreeNode? {
     if (root1 == null && root2 == null)
         return null
@@ -12,9 +14,9 @@ fun mergeTreesRecursive(root1: TreeNode?, root2: TreeNode?): TreeNode? {
 fun mergeTrees(root1: TreeNode?, root2: TreeNode?): TreeNode? {
     if (root1 == null && root2 == null)
         return null
-    val queue1 = ArrayDeque<TreeNode?>()
-    val queue2 = ArrayDeque<TreeNode?>()
-    val queue3 = ArrayDeque<TreeNode>()
+    val queue1 = LinkedList<TreeNode?>()
+    val queue2 = LinkedList<TreeNode?>()
+    val queue3 = LinkedList<TreeNode>()
     queue1.add(root1)
     queue2.add(root2)
     val root = TreeNode(0).also { queue3.add(it) }
