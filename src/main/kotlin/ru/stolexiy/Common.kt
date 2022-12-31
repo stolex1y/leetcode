@@ -1,5 +1,7 @@
 package ru.stolexiy
 
+import sun.reflect.generics.tree.Tree
+
 class ListNode(var `val`: Int) {
 
     companion object {
@@ -45,6 +47,47 @@ enum class Direction(val dir: Pair<Int, Int>) {
 
 operator fun Pair<Int, Int>.plus(other: Pair<Int, Int>): Pair<Int, Int> {
     return Pair(this.first + other.first, this.second + other.second)
+}
+
+class BinarySearchTreeNode(var `val`: Int) {
+    var left: BinarySearchTreeNode? = null
+    var right: BinarySearchTreeNode? = null
+    companion object {
+        fun generateTree(values: IntArray, equalsToLeft: Boolean = true): BinarySearchTreeNode {
+            require(values.isNotEmpty())
+            val root = BinarySearchTreeNode(values.first())
+            values.drop(1).forEach { root.insert(it, equalsToLeft) }
+            return root
+        }
+    }
+
+    fun insert(value: Int, equalsToLeft: Boolean) {
+        var cur: BinarySearchTreeNode? = this
+        var p: BinarySearchTreeNode = this
+        while (cur != null) {
+            p = cur
+            cur = if (value < cur.`val` || (value == cur.`val` && equalsToLeft))
+                cur.left
+            else
+                cur.right
+        }
+        if (value < p.`val` || (value == p.`val` && equalsToLeft))
+            p.left = BinarySearchTreeNode(value)
+        else
+            p.right = BinarySearchTreeNode(value)
+    }
+
+    fun inorderTraversal(): List<Int> {
+        return mutableListOf<Int>().apply { inorderTraversal(this@BinarySearchTreeNode, this@apply) }
+    }
+
+    private fun inorderTraversal(node: BinarySearchTreeNode?, list: MutableList<Int>) {
+        if (node != null) {
+            inorderTraversal(node.left, list)
+            list += node.`val`
+            inorderTraversal(node.right, list)
+        }
+    }
 }
 
 class TreeNode(var `val`: Int) {
@@ -154,5 +197,52 @@ fun Node.toNodeArray(): Array<Node?> {
         }
     }
     return result.toTypedArray()
+}
+
+class MaxHeap<T>(val capacity: Int) {
+    private val array = Array(capacity) { Pair<Int, T?>(0, null) }
+    var size: Int = 0
+        private set
+
+    constructor(array: Array<Pair<Int, T?>>) : this(array.size) {
+        array.forEachIndexed { index, i -> this.array[index] = i }
+        this.size = array.size
+        for (i in this.array.size / 2 - 1 downTo 0)
+            heapify(i)
+    }
+
+    fun extractMax(): T? {
+        if (size == 0)
+            return null
+        val max = array.first()
+        array[0] = array[size - 1]
+        array[size - 1] = 0 to null
+        size--
+        heapify(0)
+        return max.second
+    }
+
+    private fun heapify(i: Int) {
+        if (i >= this.size) return
+        val left = left(i)
+        val right = right(i)
+        val cur = array[i]
+        var maxIdx = i
+        if (left < this.size && array[left].first > array[maxIdx].first)
+            maxIdx = left
+        if (right < this.size && array[right].first > array[maxIdx].first)
+            maxIdx = right
+        if (maxIdx == i)
+            return
+        else {
+            array[i] = array[maxIdx]
+            array[maxIdx] = cur
+            heapify(maxIdx)
+        }
+    }
+
+    private fun left(i: Int) = (i + 1) * 2 - 1
+    private fun right(i: Int) = (i + 1) * 2
+    private fun parent(i: Int) = (i + 1) / 2 - 1
 }
 
