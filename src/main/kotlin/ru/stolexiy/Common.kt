@@ -95,41 +95,58 @@ class TreeNode(var `val`: Int) {
     var right: TreeNode? = null
 
     companion object {
-        fun generateTree(values: IntArray): TreeNode {
-            require(values.isNotEmpty())
-            val root = TreeNode(values[0])
+        fun generateTree(vararg values: Int?): TreeNode {
+            require(values.isNotEmpty() && values.first() != null)
+            val root = TreeNode(values.first()!!)
             val queue = ArrayDeque<TreeNode>()
             queue.add(root)
             for (i in 1 until values.size step 2) {
                 val current = queue.removeFirst()
-                val left = values.getOrElse(i) { -1 }
-                val right = values.getOrElse(i + 1) { -1 }
-                if (left != -1) {
-                    current.left = TreeNode(left)
-                    queue.add(current.left!!)
+                val left = values.getOrNull(i)
+                val right = values.getOrNull(i + 1)
+                left?.let {
+                    TreeNode(left).let { node ->
+                        current.left = node
+                        queue.add(node)
+                    }
                 }
-                if (right != -1) {
-                    current.right = TreeNode(right)
-                    queue.add(current.right!!)
+                right?.let {
+                    TreeNode(right).let { node ->
+                        current.right = node
+                        queue.add(node)
+                    }
                 }
             }
             return root
         }
+
+        fun generateTree(values: IntArray): TreeNode {
+            return generateTree(*values.toTypedArray())
+        }
+
     }
 
     fun toIntArray(): IntArray {
-        val result = mutableListOf<Int>()
+        return toArray().mapNotNull { it }.toIntArray()
+    }
+
+    fun toArray(): Array<Int?> {
+        val result = mutableListOf<Int?>()
         val queue = ArrayDeque<TreeNode?>()
         queue.add(this)
         while (queue.isNotEmpty()) {
             val curr = queue.removeFirst()
-            result.add(curr?.`val` ?: -1)
+            result.add(curr?.`val`)
             curr?.let {
                 queue.add(it.left)
                 queue.add(it.right)
             }
         }
-        return result.toIntArray()
+        return result.toTypedArray()
+    }
+
+    override fun toString(): String {
+        return toArray().joinToString(",", "[", "]")
     }
 }
 
