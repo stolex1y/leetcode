@@ -1,7 +1,5 @@
 package ru.stolexiy
 
-import sun.reflect.generics.tree.Tree
-
 class ListNode(var `val`: Int) {
 
     companion object {
@@ -36,13 +34,6 @@ class ListNode(var `val`: Int) {
 
 fun Array<IntArray>.toString() = joinToString(separator = "\n") {
     it.joinToString(" ")
-}
-
-enum class Direction(val dir: Pair<Int, Int>) {
-    LEFT(0 to -1),
-    RIGHT(0 to 1),
-    UP(-1 to 0),
-    DOWN(1 to 0)
 }
 
 operator fun Pair<Int, Int>.plus(other: Pair<Int, Int>): Pair<Int, Int> {
@@ -91,6 +82,7 @@ class BinarySearchTreeNode(var `val`: Int) {
 }
 
 class TreeNode(var `val`: Int) {
+    var parent: TreeNode? = null
     var left: TreeNode? = null
     var right: TreeNode? = null
 
@@ -106,12 +98,14 @@ class TreeNode(var `val`: Int) {
                 val right = values.getOrNull(i + 1)
                 left?.let {
                     TreeNode(left).let { node ->
+                        node.parent = current
                         current.left = node
                         queue.add(node)
                     }
                 }
                 right?.let {
                     TreeNode(right).let { node ->
+                        node.parent = current
                         current.right = node
                         queue.add(node)
                     }

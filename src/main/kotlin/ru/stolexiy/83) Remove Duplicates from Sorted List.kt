@@ -1,6 +1,6 @@
 package ru.stolexiy
 
-fun deleteDuplicates(head: ListNode?): ListNode? {
+private fun deleteDuplicates(head: ListNode?): ListNode? {
     var currNode = head
     var prevNode: ListNode? = null
     while (currNode != null) {

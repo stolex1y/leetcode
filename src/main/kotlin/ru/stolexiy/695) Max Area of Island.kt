@@ -3,7 +3,7 @@ package ru.stolexiy
 import java.lang.Integer.max
 import kotlin.collections.*
 
-fun maxAreaOfIsland(grid: Array<IntArray>): Int {
+private fun maxAreaOfIsland(grid: Array<IntArray>): Int {
     if (grid.isEmpty())
         return 0
     val gridMod = MutableList(grid.size) {
@@ -66,4 +66,11 @@ private fun calcIslandSquare(start: Cell): Int {
         queue.addNeighbours(start.grid, currentCell)
     }
     return square
+}
+
+private enum class Direction(val dir: Pair<Int, Int>) {
+    LEFT(0 to -1),
+    RIGHT(0 to 1),
+    UP(-1 to 0),
+    DOWN(1 to 0)
 }

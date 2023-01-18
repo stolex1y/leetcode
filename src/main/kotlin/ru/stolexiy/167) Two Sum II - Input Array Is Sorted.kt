@@ -10,20 +10,16 @@ fun twoSumWithSearch(numbers: IntArray, target: Int): IntArray {
 }
 
 fun twoSumLinear(numbers: IntArray, target: Int): IntArray {
-    var i2 = numbers.size - 1
-    var i1 = 0
-    numbers.forEach { _ ->
-        if (i1 == i2)
-            return@forEach
-
-        val a2 = numbers[i2]
-        val a1 = numbers[i1]
-        if (a1 + a2 == target)
-            return intArrayOf(i1 + 1, i2 + 1)
-        else if (a1 + a2 > target)
-            i2--
+    var left = 0
+    var right = numbers.size - 1
+    while (left < right) {
+        val sum = numbers[left] + numbers[right]
+        if (sum == target)
+            return intArrayOf(left + 1, right + 1)
+        else if (sum > target)
+            right--
         else
-            i1++
+            left++
     }
     return intArrayOf()
 }

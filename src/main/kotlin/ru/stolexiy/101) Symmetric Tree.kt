@@ -3,6 +3,23 @@ package ru.stolexiy
 import java.util.LinkedList
 
 private fun isSymmetric(root: TreeNode?): Boolean {
+    return isSymmetric(root, root)
+}
+
+private fun isSymmetric(first: TreeNode?, second: TreeNode?): Boolean {
+    if (first != null && second != null) {
+        return if (first === second)
+            return isSymmetric(first.left, first.right)
+        else if (first.`val` != second.`val`)
+            false
+        else
+            isSymmetric(first.left, second.right) && isSymmetric(first.right, second.left)
+    } else {
+        return first == null && second == null
+    }
+}
+
+private fun isSymmetric2(root: TreeNode?): Boolean {
     val curLevel = LinkedList<TreeNode?>()
     val nextLevel = LinkedList<TreeNode?>()
     curLevel.add(root)

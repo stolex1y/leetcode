@@ -1,10 +1,10 @@
 package ru.stolexiy
 
-fun search(nums: IntArray, target: Int): Int {
+private fun search(nums: IntArray, target: Int): Int {
     return search(nums, 0, nums.size - 1, target)
 }
 
-fun search(nums: IntArray, start: Int, end: Int, target: Int): Int {
+private fun search(nums: IntArray, start: Int, end: Int, target: Int): Int {
     if (end <= start) {
         return if (nums[start] == target)
             start
@@ -20,7 +20,7 @@ fun search(nums: IntArray, start: Int, end: Int, target: Int): Int {
         search(nums, start, mid - 1, target)
 }
 
-fun search_iteration(nums: IntArray, target: Int): Int {
+private fun search_iteration(nums: IntArray, target: Int): Int {
     var start = 0
     var end = nums.size - 1
     var mid: Int
