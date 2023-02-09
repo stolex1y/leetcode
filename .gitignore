@@ -1,3 +1,7 @@
 /.idea
 /.gradle
 /build
+
+/src/main/kotlin/ru/stolexiy/yandex
+/src/main/kotlin/ru/stolexiy/tinkoff
+/src/test/kotlin/ru/stolexiy/tinkoff

@@ -4,36 +4,28 @@ import java.util.PriorityQueue
 import kotlin.math.sign
 
 fun mergeKLists(lists: Array<ListNode?>): ListNode? {
-    val k = lists.size
-    val maxHeap = PriorityQueue<Pair<ListNode, Int>>() {
-            p1, p2 -> p1.first.`val`.compareTo(p2.first.`val`)
+    val minHeap = PriorityQueue<ListNode> {
+            p1, p2 -> p1.`val`.compareTo(p2.`val`)
     }
-    val currNodes = Array(k) { i -> lists[i] }
-    var notNullLists = 0
-    for (i in 0 until k) {
-        currNodes[i]?.let { currNode ->
-            maxHeap.add(currNode to i)
-            notNullLists++
-        }
+    lists.forEach { list ->
+        list?.let { minHeap.add(it) }
     }
-    var resultHead: ListNode? = null
-    var resultCurr: ListNode? = null
-    while (notNullLists > 0) {
-        val (maxNode, listIdx) = maxHeap.remove()
-        if (resultHead == null) {
-            resultHead = maxNode
-            resultCurr = resultHead
+    var head: ListNode? = null
+    var currNode: ListNode? = null
+    while (minHeap.isNotEmpty()) {
+        val minNode = minHeap.remove()
+        if (head == null) {
+            head = minNode
+            currNode = minNode
         } else {
-            resultCurr?.next = maxNode
-            resultCurr = resultCurr?.next
+            currNode?.next = minNode
+            currNode = currNode?.next
         }
-        currNodes[listIdx] = maxNode.next
-        if (currNodes[listIdx] == null)
-            notNullLists--
-        else
-            maxHeap.add(currNodes[listIdx]!! to listIdx)
+        minNode.next?.let {
+            minHeap.add(it)
+        }
     }
-    return resultHead
+    return head
 }
 
 fun main() {
