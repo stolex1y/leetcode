@@ -1,8 +1,8 @@
-package ru.stolexiy
+package ru.stolexiy.leetcode
 
 import org.junit.jupiter.api.Test
 
-class SampleTest {
+class BinarySearchTest {
 
     @Test
     internal fun test1() {
