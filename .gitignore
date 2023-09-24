@@ -7,3 +7,7 @@
 /**/coderun
 
 *.log
+
+/**/cmake-build-*
+
+/**/*contest*
