@@ -5,8 +5,11 @@ set(CMAKE_CXX_STANDARD 20)
 
 
 add_subdirectory("../utils" "libs/utils")
+add_subdirectory("6) Zigzag Conversion")
 add_subdirectory("27) Remove Element")
+add_subdirectory("55) Jump Game")
 add_subdirectory("88) Merge Sorted Array")
+add_subdirectory("189) Rotate Array")
 add_subdirectory("199) Binary Tree Right Side View")
 add_subdirectory("208) Implement Trie (Prefix Tree)")
 add_subdirectory("211) Design Add and Search Words Data Structure")
