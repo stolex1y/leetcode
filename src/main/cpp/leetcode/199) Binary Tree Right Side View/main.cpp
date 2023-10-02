@@ -5,7 +5,7 @@
 #include <queue>
 #include <iostream>
 
-#include "TreeNode.h"
+#include "tree_node.h"
 
 using namespace std;
 
@@ -39,6 +39,6 @@ int main() {
             new TreeNode(3, nullptr, new TreeNode(4))
     );
     auto result = Solution().rightSideView(&tree);
-    std::for_each(result.begin(), result.end(), [](auto i){ cout << i << " ";});
+    std::for_each(result.begin(), result.end(), [](auto i) { cout << i << " "; });
 }
 

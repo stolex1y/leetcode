@@ -4,29 +4,34 @@
 #include <functional>
 #include <string>
 #include <stdexcept>
+#include <sstream>
 #include <boost/range/combine.hpp>
 
-template<typename T>
+template<typename T, typename Equal = std::equal_to<T>>
 void assert_equals(const T &expected, const T &actual,
                    const std::function<std::string(const T &, const T &)> &msgProvider = [](const T &expected,
                                                                                             const T &actual) {
-                       return "Expected " + std::to_string(expected) + ", but actual's " +
-                       std::to_string(actual);
-                   }) {
-    if (expected != actual)
+                       std::stringstream stream;
+                       stream << "Expected" << expected << ", but actual's " <<
+                              actual;
+                       return stream.str();
+                   }
+) {
+    Equal equal;
+    if (!equal(expected, actual))
         throw std::runtime_error(msgProvider(expected, actual));
 }
 
 void assert_true(bool actual,
                  const std::function<std::string(
                          void)> &msgProvider = []() { return "Expected true, but actual's false"; }) {
-    assert_equals(true, actual, {[&msgProvider](auto &_1, auto &_2){ return msgProvider(); }});
+    assert_equals(true, actual, {[&msgProvider](auto &_1, auto &_2) { return msgProvider(); }});
 }
 
 void assert_false(bool actual,
                   const std::function<std::string(
                           void)> &msgProvider = []() { return "Expected false, but actual's true"; }) {
-    assert_equals(false, actual, {[&msgProvider](auto &_1, auto &_2){ return msgProvider(); }});
+    assert_equals(false, actual, {[&msgProvider](auto &_1, auto &_2) { return msgProvider(); }});
 }
 
 template<typename T, typename Container>
@@ -35,8 +40,10 @@ void assert_equals_content(
         const Container &actual,
         const std::function<std::string(
                 const T &, const T &)> &msgProvider = [](T expected, T actual) {
-            return "Expected " + std::to_string(expected) + ", but actual's " +
-                   std::to_string(actual);
+            std::stringstream stream;
+            stream << "Expected" << expected << ", but actual's " <<
+                   actual;
+            return stream.str();
         }
 ) {
     for (auto tuple: boost::combine(expected, actual)) {

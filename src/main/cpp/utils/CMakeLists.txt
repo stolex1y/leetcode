@@ -11,6 +11,8 @@ add_library(
         include/tree_node.h
         include/test_utils.h
         include/graph.h
+        include/list_node.h
+        include/container_utils.h
 )
 target_include_directories(libutils INTERFACE include)
 target_link_libraries(libutils INTERFACE Boost::boost)
