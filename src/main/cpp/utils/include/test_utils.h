@@ -1,5 +1,5 @@
-#ifndef TEST_UTILS_GRAPH_H
-#define TEST_UTILS_GRAPH_H
+#ifndef UTILS_GRAPH_H
+#define UTILS_GRAPH_H
 
 #include <functional>
 #include <string>
@@ -51,4 +51,4 @@ void assert_equals_content(
     }
 }
 
-#endif //TEST_UTILS_GRAPH_H
+#endif //UTILS_GRAPH_H
