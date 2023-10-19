@@ -55,11 +55,11 @@ std::vector<Node> make_nodes(int size) {
     return nodes;
 }
 
-std::vector<std::list<Node *>> make_adjacency_lists(
+std::vector<std::vector<Node *>> make_adjacency_lists(
         std::vector<Node> &nodes,
         const std::vector<std::vector<int>> &indexed_adj_lists
 ) {
-    std::vector<std::list<Node *>> adj_lists(nodes.size());
+    std::vector<std::vector<Node *>> adj_lists(nodes.size());
     for (auto s: nodes) {
         for (auto t: indexed_adj_lists[s.index]) {
             adj_lists[s.index].push_back(&nodes[t]);
@@ -104,7 +104,7 @@ std::vector<int> count_node_degrees(
 ) {
     std::vector<int> degrees(adj_lists.size());
     for (int i = 0; i < adj_lists.size(); i++) {
-        degrees[i] = adj_lists.size();
+        degrees[i] = adj_lists[i].size();
     }
     return degrees;
 }
