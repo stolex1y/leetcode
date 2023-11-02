@@ -108,3 +108,46 @@ std::vector<int> count_node_degrees(
     }
     return degrees;
 }
+
+static void topological_sort_visit(
+        Node &start_node,
+        const std::vector<std::vector<Node *>> &adj_lists,
+        int &global_time,
+        std::deque<Node *> &sorted
+) {
+    std::stack<Node *> next_nodes;
+    next_nodes.push(&start_node);
+    start_node.visit();
+    while (!next_nodes.empty()) {
+        auto node = next_nodes.top();
+        if (node->is_finished()) {
+            node->finish_time = ++global_time;
+            next_nodes.pop();
+            sorted.push_front(node);
+            continue;
+        }
+        start_node.discover_time = ++global_time;
+        for (const auto adj: adj_lists[node->index]) {
+            if (adj->is_not_visited()) {
+                next_nodes.push(adj);
+                adj->visit();
+            }
+        }
+        node->finish();
+    }
+}
+
+std::vector<Node *> topological_sort(
+        std::vector<Node> &nodes,
+        const std::vector<std::vector<Node *>> &adj_lists
+) {
+    dfs_init(nodes);
+    int time = 0;
+    std::deque<Node *> sorted;
+    for (auto &node: nodes) {
+        if (node.is_not_visited()) {
+            topological_sort_visit(node, adj_lists, time, sorted);
+        }
+    }
+    return {sorted.begin(), sorted.end()};
+}

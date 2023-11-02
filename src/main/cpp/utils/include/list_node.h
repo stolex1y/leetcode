@@ -4,25 +4,28 @@
 #include <memory>
 #include <string>
 #include <sstream>
+#include <utility>
 
-struct ListNode {
+struct ListNodeSmart {
     int val;
-    std::shared_ptr<ListNode> next;
+    std::shared_ptr<ListNodeSmart> next;
 
-    ListNode() : val(0), next(nullptr) {}
+    ListNodeSmart() : val(0), next(nullptr) {}
 
-    ListNode(int x) : val(x), next(nullptr) {}
+    explicit ListNodeSmart(int x) : val(x), next(nullptr) {}
 
-    ListNode(int x, std::shared_ptr<ListNode> next) : val(x), next(next) {}
+    ListNodeSmart(int x, const std::shared_ptr<ListNodeSmart> &next) :
+            val(x),
+            next(next) {}
 
-    static std::unique_ptr<ListNode> make_list(const std::initializer_list<int> &init_list) {
-        std::unique_ptr<ListNode> head;
-        std::shared_ptr<ListNode> prev;
-        for (auto i : init_list) {
+    static std::unique_ptr<ListNodeSmart> make_list(const std::initializer_list<int> &init_list) {
+        std::unique_ptr<ListNodeSmart> head;
+        std::shared_ptr<ListNodeSmart> prev;
+        for (auto i: init_list) {
             if (!head)
-                head = std::make_unique<ListNode>(i);
+                head = std::make_unique<ListNodeSmart>(i);
             else {
-                const auto node = std::make_shared<ListNode>(i);
+                const auto node = std::make_shared<ListNodeSmart>(i);
                 if (!prev)
                     head->next = node;
                 else
@@ -33,9 +36,9 @@ struct ListNode {
         return head;
     }
 
-    static bool equals(
-            const std::shared_ptr<const ListNode> &first_head,
-            const std::shared_ptr<const ListNode> &second_head
+    friend bool operator==(
+            const std::shared_ptr<const ListNodeSmart> &first_head,
+            const std::shared_ptr<const ListNodeSmart> &second_head
     ) {
         auto first = first_head;
         auto second = second_head;
@@ -48,7 +51,7 @@ struct ListNode {
         return !first && !second;
     }
 
-    friend std::ostream & operator<<(std::ostream &os, const std::shared_ptr<const ListNode> head) {
+    friend std::ostream &operator<<(std::ostream &os, const std::shared_ptr<const ListNodeSmart> &head) {
         auto cur = head;
         os << "[";
         while (cur) {
@@ -62,16 +65,58 @@ struct ListNode {
     }
 };
 
-namespace std {
-    template <>
-    struct equal_to<shared_ptr<const ListNode>> {
-        bool operator()(
-                const shared_ptr<const ListNode> &first,
-                const shared_ptr<const ListNode> &second
-                ) {
-            return ListNode::equals(first, second);
+struct ListNode {
+    int val = 0;
+    ListNode *next = nullptr;
+
+    ListNode() = default;
+
+    explicit ListNode(int x) : val(x), next(nullptr) {}
+
+    ListNode(int x, ListNode *next) :
+            val(x),
+            next(next) {}
+
+    static ListNode *make_list(const std::initializer_list<int> &init_list) {
+        ListNode *head = nullptr;
+        ListNode *prev = nullptr;
+        for (auto i: init_list) {
+            auto new_node = new ListNode(i);
+            if (!head)
+                head = new_node;
+            else {
+                if (!prev)
+                    head->next = new_node;
+                else
+                    prev->next = new_node;
+                prev = new_node;
+            }
         }
-    };
-}
+        return head;
+    }
+
+    static bool equals(const ListNode *first, const ListNode *second) {
+        while (first && second) {
+            if (first->val != second->val)
+                return false;
+            first = first->next;
+            second = second->next;
+        }
+        return !first && !second;
+    }
+
+    friend std::ostream &operator<<(std::ostream &os, const ListNode *head) {
+        auto cur = head;
+        os << "[";
+        while (cur) {
+            if (cur != head)
+                os << ",";
+            os << cur->val;
+            cur = cur->next;
+        }
+        os << "]";
+        return os;
+    }
+};
 
 #endif //LEETCODE_LIST_NODE_H

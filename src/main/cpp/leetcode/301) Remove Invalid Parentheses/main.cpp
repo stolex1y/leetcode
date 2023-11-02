@@ -22,14 +22,14 @@ using namespace std;
 class Solution {
 public:
     vector<string> removeInvalidParentheses(string s) {
-        parentheses to_remove = calc_parentheses_to_remove(s);
+        bracket to_remove = calc_parentheses_to_remove(s);
         unordered_set<string> valid_parentheses;
         remove_invalid_parentheses(s, valid_parentheses, to_remove);
         return {valid_parentheses.begin(), valid_parentheses.end()};
     }
 
 private:
-    struct parentheses {
+    struct bracket {
         int open = 0;
         int close = 0;
     };
@@ -37,7 +37,7 @@ private:
     void remove_invalid_parentheses(
             const string &s,
             unordered_set<string> &valid_parentheses,
-            parentheses to_remove
+            bracket to_remove
     ) {
         vector<char> curr_parentheses;
         remove_invalid_parentheses(
@@ -55,8 +55,8 @@ private:
             unordered_set<string> &valid_parentheses,
             int start,
             vector<char> &curr_parentheses,
-            parentheses count,
-            parentheses to_remove
+            bracket count,
+            bracket to_remove
     ) {
         int added = 0;
         for (int i = start; i < s.size(); i++) {
@@ -99,7 +99,7 @@ private:
             curr_parentheses.pop_back();
     }
 
-    parentheses calc_parentheses_to_remove(const string &s) {
+    bracket calc_parentheses_to_remove(const string &s) {
         int open_to_delete = 0;
         int close_to_delete = 0;
         for (const auto ch: s) {

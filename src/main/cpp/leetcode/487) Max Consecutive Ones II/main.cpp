@@ -17,6 +17,32 @@
 
 using namespace std;
 
+// Optimal
+class Solution2 {
+public:
+    int longestOnes(vector<int>& nums, int max_flip = 1) {
+        int max_count = INT_MIN;
+        int flipped = 0;
+        int left = 0;
+        int right;
+        for (right = 0; right < nums.size(); right++) {
+            if (nums[right] == 0) {
+                flipped++;
+                if (flipped > max_flip) {
+                    max_count = max(max_count, right - left);
+                    while (flipped > max_flip) {
+                        if (nums[left] == 0)
+                            flipped--;
+                        left++;
+                    }
+                }
+            }
+        }
+        max_count = max(max_count, right - left);
+        return max_count;
+    }
+};
+
 class Solution {
 public:
     int longestOnes(vector<int>& nums, int max_flip = 1) {
@@ -44,32 +70,6 @@ public:
             }
         }
         max_count = max(max_count, count);
-        return max_count;
-    }
-};
-
-// Optimal
-class Solution2 {
-public:
-    int longestOnes(vector<int>& nums, int max_flip = 1) {
-        int max_count = INT_MIN;
-        int flipped = 0;
-        int left = 0;
-        int right;
-        for (right = 0; right < nums.size(); right++) {
-            if (nums[right] == 0) {
-                flipped++;
-                if (flipped > max_flip) {
-                    max_count = max(max_count, right - left);
-                    while (flipped > max_flip) {
-                        if (nums[left] == 0)
-                            flipped--;
-                        left++;
-                    }
-                }
-            }
-        }
-        max_count = max(max_count, right - left);
         return max_count;
     }
 };
