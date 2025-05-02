@@ -70,16 +70,16 @@ private fun findTarget2(root: TreeNode?, k: Int): Boolean {
     val forwardIterator = BstIterator(root, isForward = true)
     val backwardIterator = BstIterator(root, isForward = false)
     var i = forwardIterator.peek().`val`
-    var j = backwardIterator.peek().`val`
-    while (i < j) {
-        if (i + j == k)
+    var y = backwardIterator.peek().`val`
+    while (i < y) {
+        if (i + y == k)
             return true
-        else if (i + j > k)
+        else if (i + y > k)
             backwardIterator.pop()
         else
             forwardIterator.pop()
         i = forwardIterator.peek().`val`
-        j = backwardIterator.peek().`val`
+        y = backwardIterator.peek().`val`
     }
     return false
 }

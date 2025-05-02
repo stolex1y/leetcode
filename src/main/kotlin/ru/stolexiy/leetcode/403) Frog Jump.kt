@@ -28,8 +28,8 @@ fun canCross(stones: IntArray): Boolean {
     for (i in stones.size - 2 downTo 0) {
         val start = stones[i]
         paths[start]!!.add(stones.last() - start)
-        for (j in i + 1 until stones.size) {
-            val target = stones[j]
+        for (y in i + 1 until stones.size) {
+            val target = stones[y]
             val jump = target - start
             for (k in jump - 1..jump + 1) {
                 if (paths[start + jump]?.contains(k) == true)

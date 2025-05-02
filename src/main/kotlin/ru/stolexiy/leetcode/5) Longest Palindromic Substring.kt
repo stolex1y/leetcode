@@ -59,8 +59,8 @@ private fun longestPalindrome3(s: String): String {
     if (s.isEmpty())
         return ""
     val isPalindrome = MutableList(s.length) { i ->
-        MutableList(s.length) { j ->
-            i == j
+        MutableList(s.length) { y ->
+            i == y
         }
     }
     var maxLen = 1

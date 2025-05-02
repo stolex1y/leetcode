@@ -32,10 +32,10 @@ fun isValidSudoku(board: Array<CharArray>): Boolean {
 
     for (i in board.indices step 3) {
         set.clear()
-        for (j in board.first().indices step 3) {
+        for (y in board.first().indices step 3) {
             set.clear()
             for (k in 0 until 9) {
-                val ch = board[i + k / 3][j + k % 3]
+                val ch = board[i + k / 3][y + k % 3]
                 if (ch != '.') {
                     if (set.contains(ch))
                         return false

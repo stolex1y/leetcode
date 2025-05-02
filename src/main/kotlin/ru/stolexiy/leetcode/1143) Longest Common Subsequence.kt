@@ -14,12 +14,12 @@ import kotlin.math.max
 fun longestCommonSubsequence(s1: String, s2: String): Int {
     val lcsTable = Array(s1.length + 1) { IntArray(s2.length + 1) { 0 } }
     for (i in s1.indices) {
-        for (j in s2.indices) {
-            lcsTable[i + 1][j + 1] =
-                if (s1[i] == s2[j])
-                    lcsTable[i][j] + 1
+        for (y in s2.indices) {
+            lcsTable[i + 1][y + 1] =
+                if (s1[i] == s2[y])
+                    lcsTable[i][y] + 1
                 else
-                    max(lcsTable[i + 1][j], lcsTable[i][j + 1])
+                    max(lcsTable[i + 1][y], lcsTable[i][y + 1])
         }
     }
     return lcsTable[s1.length][s2.length]

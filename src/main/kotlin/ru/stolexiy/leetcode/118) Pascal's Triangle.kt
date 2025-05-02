@@ -15,8 +15,8 @@ fun generatePascalsTriangle(numRows: Int): List<List<Int>> {
         val row = mutableListOf<Int>()
         result += row
         row += 1
-        for (j in 1 until (i - 1)) {
-            row += prevRow[j - 1] + prevRow[j]
+        for (y in 1 until (i - 1)) {
+            row += prevRow[y - 1] + prevRow[y]
         }
         row += 1
     }

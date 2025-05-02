@@ -25,13 +25,13 @@ fun shortestCommonSupersequence(s1: String, s2: String): String {
     }
 
     for (i in 1 .. s1.length) {
-        for (j in 1 .. s2.length) {
-            if (s1[i - 1] == s2[j - 1])
-                scsTable[i][j] = scsTable[i - 1][j - 1] + 1
-            else if (scsTable[i - 1][j] <= scsTable[i][j - 1])
-                scsTable[i][j] = scsTable[i - 1][j] + 1
+        for (y in 1 .. s2.length) {
+            if (s1[i - 1] == s2[y - 1])
+                scsTable[i][y] = scsTable[i - 1][y - 1] + 1
+            else if (scsTable[i - 1][y] <= scsTable[i][y - 1])
+                scsTable[i][y] = scsTable[i - 1][y] + 1
             else
-                scsTable[i][j] = scsTable[i][j - 1] + 1
+                scsTable[i][y] = scsTable[i][y - 1] + 1
         }
     }
 

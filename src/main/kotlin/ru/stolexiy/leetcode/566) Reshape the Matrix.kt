@@ -7,8 +7,8 @@ fun matrixReshape(mat: Array<IntArray>, r: Int, c: Int): Array<IntArray> {
         return mat
     val result = Array(r) { IntArray(c) }
     mat.forEachIndexed { i, row ->
-        row.forEachIndexed { j, el ->
-            val elAbsIndex = i * n + j
+        row.forEachIndexed { y, el ->
+            val elAbsIndex = i * n + y
             result[elAbsIndex / c][elAbsIndex % c] = el
         }
     }

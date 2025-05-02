@@ -59,8 +59,8 @@ fun main() {
 
     )
     for (i in 0..5) {
-        for (j in 0..5) {
-            println(validPathDisjointSet(6, edges, i, j))
+        for (y in 0..5) {
+            println(validPathDisjointSet(6, edges, i, y))
         }
     }
 }
