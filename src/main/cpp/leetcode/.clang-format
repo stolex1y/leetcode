@@ -1,6 +1,6 @@
 Language: Cpp
 BasedOnStyle: Google
-ColumnLimit: 100
+ColumnLimit: 120
 
 EmptyLineBeforeAccessModifier: Always
 
@@ -9,6 +9,7 @@ BinPackArguments: false
 BinPackParameters: false
 
 UseTab: Never
+IndentWidth: 4
 
 AllowShortLoopsOnASingleLine: false
 AllowShortFunctionsOnASingleLine: None
